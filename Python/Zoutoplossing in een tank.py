@@ -12,9 +12,17 @@ import matplotlib.pyplot
 # aantal stappen dat we nemen. Één stap is één minuut.
 num_steps = 50
 
+# hoeveelheid liter water in de tank
+w = numpy.zeros(num_steps+1)
+w[0] = 1000
+
+# liters zoutmix in en liters uit de tank
+l_in = 6
+l_uit = 6
+
 
 # hoeveelheid zout dat per stap in de tank komt. 0.1kg/L * 6L
-v = 0.1 * 6  # 0.6
+v = 0.1 * l_in  # 0.6
 
 # zoutgehalte in de tank op het begin moment.
 z = [0]
@@ -26,14 +34,19 @@ t = numpy.arange(num_steps+1)
 z = numpy.zeros(num_steps+1)
 
 for step in range(num_steps):
-    z[step+1] = z[step] + (v - (6/1000*z[step])) * t[step]
+    z[step+1] = z[step] + (v - (6/w[step]*z[step])) * t[step]
+    w[step+1] = w[step] + l_in - l_uit
+
 
 
 def plot_me():
     axes_height = matplotlib.pyplot.subplot(211)
+    matplotlib.pyplot.plot(t, w)
+    axes_velocity = matplotlib.pyplot.subplot(212)
     matplotlib.pyplot.plot(t, z)
-    axes_height.set_ylabel('Zout in Kg')
-    axes_height.set_xlabel('Time in minutes')
+    axes_height.set_ylabel('L water in Tank')
+    axes_velocity.set_ylabel('Zout in tank in Kg')
+    axes_velocity.set_xlabel('Time in minutes')
     matplotlib.pyplot.show()
 
 
