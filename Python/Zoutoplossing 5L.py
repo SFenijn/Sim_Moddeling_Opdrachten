@@ -10,7 +10,7 @@ import matplotlib.pyplot
 # Bepaal mbv numerieke methoden het verloop in de tijd van de zoutconcentratie in de tank. Plot het verloop.
 
 # aantal stappen dat we nemen. Één stap is één minuut.
-num_steps = 50
+num_steps = 1000
 
 # hoeveelheid liter water in de tank
 w = numpy.zeros(num_steps+1)
@@ -29,12 +29,13 @@ z = [0]
 
 # De stap groote die we zetten.
 t = numpy.arange(num_steps+1)
+tstap = 1
 
 # aanmaak van numpy array.
 z = numpy.zeros(num_steps+1)
 
 for step in range(num_steps):
-    z[step+1] = z[step] + (v - (6/w[step]*z[step])) * t[step]
+    z[step+1] = z[step] + (v - (l_in/w[step]*z[step])) * tstap
     w[step+1] = w[step] + l_in - l_uit
 
 
