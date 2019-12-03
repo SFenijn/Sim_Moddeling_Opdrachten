@@ -24,8 +24,11 @@ l_uit = 6
 # hoeveelheid zout dat per stap in de tank komt. 0.1kg/L * 6L
 v = 0.1 * l_in  # 0.6
 
-# zoutgehalte in de tank op het begin moment.
+# hoeveelheid zout in de tank op het begin moment.
 z = [0]
+
+# concentratie van zout in de tank
+s = numpy.zeros(num_steps+1)
 
 # De stap groote die we zetten.
 t = numpy.arange(num_steps+1)
@@ -37,6 +40,7 @@ z = numpy.zeros(num_steps+1)
 for step in range(num_steps):
     z[step+1] = z[step] + (v - (l_in/w[step]*z[step])) * tstap
     w[step+1] = w[step] + l_in - l_uit
+    s[step+1] = z[step+1] / w[step+1]
 
 
 
@@ -44,9 +48,9 @@ def plot_me():
     axes_height = matplotlib.pyplot.subplot(211)
     matplotlib.pyplot.plot(t, w)
     axes_velocity = matplotlib.pyplot.subplot(212)
-    matplotlib.pyplot.plot(t, z)
+    matplotlib.pyplot.plot(t, s)
     axes_height.set_ylabel('L water in Tank')
-    axes_velocity.set_ylabel('Zout in tank in Kg')
+    axes_velocity.set_ylabel('Zoutconcentratie per Liter')
     axes_velocity.set_xlabel('Time in minutes')
     matplotlib.pyplot.show()
 
